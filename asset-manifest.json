@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "http://blog.ammaraskar.com/sweet-home-alabamafy/static/css/main.e6c13ad2.css",
+    "main.js": "http://blog.ammaraskar.com/sweet-home-alabamafy/static/js/main.5247b69b.js",
+    "index.html": "http://blog.ammaraskar.com/sweet-home-alabamafy/index.html",
+    "main.e6c13ad2.css.map": "http://blog.ammaraskar.com/sweet-home-alabamafy/static/css/main.e6c13ad2.css.map",
+    "main.5247b69b.js.map": "http://blog.ammaraskar.com/sweet-home-alabamafy/static/js/main.5247b69b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.5247b69b.js"
+  ]
+}
