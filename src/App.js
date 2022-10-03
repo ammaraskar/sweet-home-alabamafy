@@ -2,9 +2,9 @@ import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Box, Container } from '@mui/system';
-import { Alert, Autocomplete, Chip, Divider, Grid, Paper, TextField, Typography } from '@mui/material';
+import { Alert, Autocomplete, Chip, Divider, Paper, TextField, Typography } from '@mui/material';
 import SpotifyPlayer, { STATUS } from 'react-spotify-web-playback';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import SpotifyWebApi from 'spotify-web-api-node';
 import { throttle } from 'lodash';
 import * as Tone from 'tone'
@@ -94,7 +94,7 @@ function App() {
     if (spotifyPlayer) {
       window.spotifyPlayer = spotifyPlayer;
     }
-  }, []);
+  });
 
   const handleCallback = ({ type, ...state }) => {
     if (state.status === STATUS.ERROR && state.errorType === 'authentication_error') {
@@ -108,10 +108,10 @@ function App() {
   const [error, setError] = useState(null);
   const [username, setUsername] = useState(null);
 
-  const spotifyApi = new SpotifyWebApi({
+  const spotifyApi = useMemo(() => new SpotifyWebApi({
     clientId: REACT_APP_SPOTIFY_CLIENT_ID,
     accessToken: token,
-  });
+  }), [token]);
 
   useEffect(() => {
     if (!token) {
@@ -123,7 +123,7 @@ function App() {
     }, err => {
       setError(err + '');
     })
-  }, []);
+  });
 
   const [songs, setSongs] = useState([]);
   const [searchValue, setSearchValue] = useState('');
@@ -143,7 +143,7 @@ function App() {
         setError(err + '');
       })
     }, 500)();
-  }, [searchValue]);
+  }, [searchValue, spotifyApi]);
 
   const [analysis, setAnalysis] = useState(null);
   useEffect(() => {
@@ -159,7 +159,7 @@ function App() {
       setError(err + '');
     })
 
-  }, [selectedSong]);
+  }, [selectedSong, spotifyApi]);
 
   useEffect(() => {
       // Original key: G
@@ -245,13 +245,13 @@ function App() {
               onInputChange={(_, newValue) => {
                 setSearchValue(newValue);
               }}
-              isOptionEqualToValue={(option, value) => option.uri == value.uri}
+              isOptionEqualToValue={(option, value) => option.uri === value.uri}
               renderOption={(props, song) => {
                 return <li {...props}>
                   {song.album.images && song.album.images[2] &&
 
                     <Paper variant="outlined">
-                      <img src={song.album.images[2].url} />
+                      <img alt="" src={song.album.images[2].url} />
                     </Paper>
                   }
                   <Typography xs={{ ml: 4 }} variant="body2" color="text.secondary">
